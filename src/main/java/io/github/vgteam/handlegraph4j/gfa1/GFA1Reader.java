@@ -39,6 +39,7 @@ public class GFA1Reader implements Iterator<Line> {
     private final Iterator<String> toWrap;
     private Line next;
     private static final Function[] PARSERS = new Function[Line.MAX_CODE - Line.MIN_CODE];
+    private int atLine = 0;
 
     static {
         PARSERS[SegmentLine.CODE - (Line.MIN_CODE + 1)] = SegmentLine.parser();
@@ -55,8 +56,15 @@ public class GFA1Reader implements Iterator<Line> {
         while (next == null && toWrap.hasNext()) {
             String line = toWrap.next();
             if (!line.isEmpty()) {
-                next = parseLine(line);
+                try {
+                    next = parseLine(line);
+                } catch (Exception e) {
+                    System.err.println("Error at line :" + atLine);
+                    e.printStackTrace();
+                    return false;
+                }
             }
+            atLine++;
         }
         return next != null;
     }

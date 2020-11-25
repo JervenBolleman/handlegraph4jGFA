@@ -50,10 +50,16 @@ public class SegmentLine implements Line {
         return SegmentLine::parseFromString;
     }
 
-    static SegmentLine parseFromString(String s) {
+    public static SegmentLine parseFromString(String s) {
         int nt = s.indexOf('\t', 2);
         byte[] id = s.substring(2, nt).getBytes(US_ASCII);
-        Sequence seq = SequenceType.fromByteArray(s.substring(nt + 1).getBytes(US_ASCII));
+        Sequence seq;
+        int secondTab = s.indexOf('\t', nt + 1);
+        if (secondTab == -1) {
+            seq = SequenceType.fromByteArray(s.substring(nt + 1).getBytes(US_ASCII));
+        } else {
+            seq = SequenceType.fromByteArray(s.substring(nt + 1, secondTab).getBytes(US_ASCII));
+        }
         return new SegmentLine(id, seq);
     }
 

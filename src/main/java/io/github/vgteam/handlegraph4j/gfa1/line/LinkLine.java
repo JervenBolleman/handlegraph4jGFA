@@ -50,7 +50,7 @@ public class LinkLine implements Line {
         return LinkLine::parseFromString;
     }
 
-    static LinkLine parseFromString(String s) {
+    public static LinkLine parseFromString(String s) {
 //      From 	String 	[!-)+-<>-~][!-~]* 	Name of segment
 // 	FromOrient 	String 	+\|- 	Orientation of From segment
 // 	To 	String 	[!-)+-<>-~][!-~]* 	Name of segment

@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
  */
 public class SegmentLineTest {
-    
+
     public SegmentLineTest() {
     }
 
@@ -48,5 +48,14 @@ public class SegmentLineTest {
         assertEquals(expected, SegmentLine.parseFromString(s));
         assertEquals(expected, result.apply(s));
     }
-    
+
+    @Test
+    public void testParser2() {
+        String s = "S\t1\tA\tic:Z:true";
+        Function<String, Line> result = SegmentLine.parser();
+        final SegmentLine expected = new SegmentLine(new byte[]{'1'}, SequenceType.fromByteArray(new byte[]{'A'}));
+        assertEquals(expected, SegmentLine.parseFromString(s));
+        assertEquals(expected, result.apply(s));
+    }
+
 }

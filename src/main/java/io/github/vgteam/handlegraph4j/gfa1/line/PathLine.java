@@ -63,7 +63,7 @@ public class PathLine implements Line {
         return PathLine::parseFromString;
     }
 
-    static PathLine parseFromString(String s) {
+    public static PathLine parseFromString(String s) {
         int nt = s.indexOf('\t', 2);
         byte[] pathId = s.substring(2, nt).getBytes(US_ASCII);
         nt = nt + pathId.length;
@@ -225,6 +225,10 @@ public class PathLine implements Line {
         public boolean isReverseComplement();
 
         public byte[] nodeId();
+        
+        public boolean nodeHasIntId();
+        
+        public int nodeIntId();
     }
 
     private class StringStep implements Step {
@@ -252,6 +256,16 @@ public class PathLine implements Line {
         @Override
         public byte[] nodeId() {
             return stringNodeId;
+        }
+
+        @Override
+        public boolean nodeHasIntId() {
+            return false;
+        }
+
+        @Override
+        public int nodeIntId() {
+            throw new IllegalStateException("Check nodeHasIntId before calling"); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
@@ -281,6 +295,16 @@ public class PathLine implements Line {
         @Override
         public byte[] nodeId() {
             return Integer.toString(intNodeId).getBytes(US_ASCII);
+        }
+        
+         @Override
+        public boolean nodeHasIntId() {
+            return true;
+        }
+
+        @Override
+        public int nodeIntId() {
+            return intNodeId;
         }
     }
 }
