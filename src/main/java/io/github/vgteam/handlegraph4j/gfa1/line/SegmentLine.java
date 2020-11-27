@@ -89,6 +89,7 @@ public class SegmentLine implements Line {
         return Objects.equals(this.sequence, other.sequence);
     }
 
+    @Override
     public String toString() {
         return "S\t" + new String(name, US_ASCII) + '\t' + sequence.toString();
     }

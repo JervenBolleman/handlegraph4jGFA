@@ -91,4 +91,8 @@ public class GFA1Reader implements Iterator<Line> {
             next = null;
         }
     }
+
+    public void parseNext() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
