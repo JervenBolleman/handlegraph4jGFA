@@ -48,7 +48,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Jerven Bolleman Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/JervenBolleman/handlegraph4jGFA</url>
+            <url>https://maven.pkg.github.com/JervenBolleman/handlegraph4j</url>
         </repository>
     </distributionManagement>
 
@@ -63,6 +63,8 @@
           <id>github</id>
           <name>GitHub Jerven Bolleman handlegraph4j Apache Maven Packages</name>
           <url>https://maven.pkg.github.com/jervenbolleman/handlegraph4j</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
         </repository>
       </repositories>
 </project>
