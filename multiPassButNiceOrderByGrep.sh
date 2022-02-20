@@ -5,6 +5,6 @@ set -o pipefail
 set -o nounset
 
 head -n1 $in
-grep "^S" $in
-grep "^P" $in
-grep "^L" $in
+grep -a -P "^S" $in
+grep -a -P "^P" $in
+grep -a -P "^L" $in
