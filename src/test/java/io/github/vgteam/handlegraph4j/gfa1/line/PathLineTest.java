@@ -43,7 +43,7 @@ public class PathLineTest {
     @Test
     public void testParser() {
         String s = "P\tx\t1+,3+,5+,6+,8+,9+,11+,12+,14+,15+\t8M,1M,1M,3M,1M,19M,1M,4M,1M,11M";
-        PathLine expResult = new PathLine(new byte[]{'x'}, new BitSet(),new int[]{1,3,5,6,8,9,11,12,14,15});
+        PathLine expResult = new PathLine(new byte[]{'x'}, new BitSet(),new long[]{1,3,5,6,8,9,11,12,14,15});
         Function<String, Line> result = PathLine.parser();
         assertEquals(expResult, result.apply(s));
     }
@@ -54,7 +54,7 @@ public class PathLineTest {
     @Test
     public void testParseFromString() {
         String s = "P\tx\t1+,3+,5+,6+,8+,9+,11+,12+,14+,15+\t8M,1M,1M,3M,1M,19M,1M,4M,1M,11M";
-        PathLine expResult = new PathLine(new byte[]{'x'}, new BitSet(),new int[]{1,3,5,6,8,9,11,12,14,15});
+        PathLine expResult = new PathLine(new byte[]{'x'}, new BitSet(),new long[]{1,3,5,6,8,9,11,12,14,15});
         PathLine result = PathLine.parseFromString(s);
         assertEquals(expResult, result);
     }   
