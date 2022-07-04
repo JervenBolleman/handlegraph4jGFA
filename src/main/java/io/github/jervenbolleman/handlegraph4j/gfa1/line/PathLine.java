@@ -30,6 +30,7 @@ import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 
 /**
@@ -44,11 +45,10 @@ public class PathLine implements Line {
 	public static final char CODE = 'P';
 	private final byte[] name;
 	private final BitSet reverseComplement;
-	private final int[] intNodeIds;
+	private final long[] intNodeIds;
 	private final byte[][] stringNodeIds;
 
-
-	public PathLine(byte[] name, BitSet revereseCompliment, int[] nodeid) {
+	public PathLine(byte[] name, BitSet revereseCompliment, long[] nodeid) {
 		this.name = name;
 		this.reverseComplement = revereseCompliment;
 		this.intNodeIds = nodeid;
@@ -68,50 +68,53 @@ public class PathLine implements Line {
 	}
 
 	public static PathLine parseFromString(String s) {
-		int nt = s.indexOf('\t', 2);
-		byte[] pathId = s.substring(2, nt).getBytes(US_ASCII);
-		nt = nt + pathId.length;
-		int nc = nt;
-		int pc = nc;
-		nt = s.indexOf('\t', nt);
-		if (nt < 0) {
-			nt = s.length();
-		}
-		int i = 0;
-		final BitSet bitSet = new BitSet();
+		StringTokenizer tok = new StringTokenizer(s, "\t");
+		String shouldBeP = tok.nextToken("\t"); // Skip first "P"
+		assert "P".equals(shouldBeP);
+		String pathIdS = tok.nextToken();
+		byte[] pathId = pathIdS.getBytes(US_ASCII);
+		final BitSet orientation = new BitSet();
 		final List<String> bl = new ArrayList<>();
-		while (nc != -1 && nc <= nt) {
-			nc = s.indexOf(',', nc + 1);
-			String seg;
-			if (nc < 0 || nc > nt) {
-				seg = s.substring(pc, nt);
-			} else {
-				seg = s.substring(pc, nc);
-			}
-			if (seg.length() > 0) {
-				bl.add(seg.substring(0, seg.length() - 1));
-				if (seg.charAt(seg.length() - 1) == '-') {
-					bitSet.set(i);
+		parsePathPart(tok, orientation, bl);
+		try {
+			return makeLongPathLine(pathId, orientation, bl);
+		} catch (NumberFormatException e) {
+			return makeStringPathLine(pathId, orientation, bl);
+		}
+	}
+
+	private static void parsePathPart(StringTokenizer tok, final BitSet orientation, final List<String> bl) {
+		int i = 0;
+		StringTokenizer segments = new StringTokenizer(tok.nextToken(), ",");
+		while (segments.hasMoreTokens()) {
+			String segment = segments.nextToken();
+			if (segment.length() > 0) {
+				bl.add(segment.substring(0, segment.length() - 1));
+				if (segment.charAt(segment.length() - 1) == '-') {
+					orientation.set(i);
 				}
 			}
-			pc = nc + 1;
 			i++;
 		}
-		try {
-			int[] ids = new int[bl.size()];
-			for (i = 0; i < bl.size(); i++) {
-				String get = bl.get(i);
-				ids[i] = Integer.parseInt(get);
-			}
-			return new PathLine(pathId, bitSet, ids);
-		} catch (NumberFormatException e) {
-			byte[][] bytes = new byte[bl.size()][];
-			for (i = 0; i < bl.size(); i++) {
-				bytes[i] = bl.get(i).getBytes(US_ASCII);
-			}
-			return new PathLine(pathId, bitSet, bytes);
-		}
+	}
 
+	private static PathLine makeStringPathLine(byte[] pathId, final BitSet bitSet, final List<String> bl) {
+		int i;
+		byte[][] bytes = new byte[bl.size()][];
+		for (i = 0; i < bl.size(); i++) {
+			bytes[i] = bl.get(i).getBytes(US_ASCII);
+		}
+		return new PathLine(pathId, bitSet, bytes);
+	}
+
+	private static PathLine makeLongPathLine(byte[] pathId, final BitSet bitSet, final List<String> bl) {
+		int i;
+		long[] ids = new long[bl.size()];
+		for (i = 0; i < bl.size(); i++) {
+			String get = bl.get(i);
+			ids[i] = Long.parseLong(get);		
+		}
+		return new PathLine(pathId, bitSet, ids);
 	}
 
 	@Override
@@ -119,7 +122,7 @@ public class PathLine implements Line {
 		StringBuilder path = new StringBuilder();
 		if (stringNodeIds == null) {
 			for (int i = 0; i < intNodeIds.length; i++) {
-				path.append(Integer.toString(intNodeIds[i]));
+				path.append(Long.toString(intNodeIds[i]));
 				if (reverseComplement.get(i)) {
 					path.append('-');
 				} else {
@@ -188,14 +191,6 @@ public class PathLine implements Line {
 		return new String(name, US_ASCII);
 	}
 
-	public int numberOfSteps() {
-		if (stringNodeIds != null) {
-			return stringNodeIds.length;
-		} else {
-			return intNodeIds.length;
-		}
-	}
-	
 	public Iterator<Step> steps() {
 		long max;
 		if (stringNodeIds != null) {
@@ -219,7 +214,7 @@ public class PathLine implements Line {
 
 						return new StringStep(at, isReverseCompliment, stringNodeIds[(int) at]);
 					} else {
-						return new IntStep(at, isReverseCompliment, intNodeIds[(int) at]);
+						return new LongStep(at, isReverseCompliment, intNodeIds[(int) at]);
 					}
 				} finally {
 					at++;
@@ -240,9 +235,9 @@ public class PathLine implements Line {
 
 		public byte[] nodeId();
 
-		public boolean nodeHasIntId();
+		public boolean nodeHasLongId();
 
-		public int nodeIntId();
+		public long nodeLongId();
 	}
 
 	private class StringStep implements Step {
@@ -273,25 +268,25 @@ public class PathLine implements Line {
 		}
 
 		@Override
-		public boolean nodeHasIntId() {
+		public boolean nodeHasLongId() {
 			return false;
 		}
 
 		@Override
-		public int nodeIntId() {
+		public long nodeLongId() {
 			throw new IllegalStateException("Check nodeHasIntId before calling"); // To change body of generated
 																					// methods, choose Tools |
 																					// Templates.
 		}
 	}
 
-	private class IntStep implements Step {
+	private class LongStep implements Step {
 
 		private final long rank;
 		private final boolean isReverseComplement;
-		private final int intNodeId;
+		private final long intNodeId;
 
-		private IntStep(long rank, boolean isReverseComplement, int intNodeId) {
+		private LongStep(long rank, boolean isReverseComplement, long intNodeId) {
 			this.rank = rank;
 			this.isReverseComplement = isReverseComplement;
 			this.intNodeId = intNodeId;
@@ -310,17 +305,25 @@ public class PathLine implements Line {
 
 		@Override
 		public byte[] nodeId() {
-			return Integer.toString(intNodeId).getBytes(US_ASCII);
+			return Long.toString(intNodeId).getBytes(US_ASCII);
 		}
 
 		@Override
-		public boolean nodeHasIntId() {
+		public boolean nodeHasLongId() {
 			return true;
 		}
 
 		@Override
-		public int nodeIntId() {
+		public long nodeLongId() {
 			return intNodeId;
+		}
+	}
+
+	public int numberOfSteps() {
+		if (stringNodeIds != null) {
+			return stringNodeIds.length;
+		} else {
+			return intNodeIds.length;
 		}
 	}
 }
