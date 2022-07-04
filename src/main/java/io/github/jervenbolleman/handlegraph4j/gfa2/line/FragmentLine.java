@@ -21,20 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa2.line;
 
-import io.github.vgteam.handlegraph4j.gfa2.line.Line;
 import java.util.function.Function;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
-public class ContainmentLine implements Line {
+public class FragmentLine implements Line {
+	/**
+	 * http://gfa-spec.github.io/GFA-spec/GFA2.html
+	 */
+	public static final char FRAGMENT_CODE = 'F';
 
-    public static final char CODE = 'C';
-
-    public static Function<String, Line> parser() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public static Function<String, Line> parser() {
+		throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+																		// Tools | Templates.
+	}
 }

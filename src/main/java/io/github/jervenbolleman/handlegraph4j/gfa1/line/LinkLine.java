@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa1.line;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import java.util.Arrays;
@@ -29,16 +29,25 @@ import java.util.function.Function;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
 public class LinkLine implements Line {
 
+	/**
+	 * Link lines start with a L http://gfa-spec.github.io/GFA-spec/GFA1.html#l-link-line
+	 */
     public static final char CODE = 'L';
     private final byte[] from;
     private final boolean reverseComplimentOfFrom;
     private final byte[] to;
     private final boolean reverseComplimentOfTo;
 
+    /**
+     * @param from part
+     * @param reverseComplimentOfFrom if reverse compliment 
+     * @param to part
+     * @param reverseComplimentOfTo if reverse compliment
+     */
     public LinkLine(byte[] from, boolean reverseComplimentOfFrom, byte[] to, boolean reverseComplimentOfTo) {
         this.from = from;
         this.reverseComplimentOfFrom = reverseComplimentOfFrom;
@@ -46,6 +55,9 @@ public class LinkLine implements Line {
         this.reverseComplimentOfTo = reverseComplimentOfTo;
     }
 
+    /**
+     * @return a function that turns the string into a line 
+     */
     public static Function<String, Line> parser() {
         return LinkLine::parseFromString;
     }

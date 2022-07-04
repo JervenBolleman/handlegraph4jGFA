@@ -21,17 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa2.line;
+package io.github.jervenbolleman.handlegraph4j.gfa2.line;
 
 import java.util.function.Function;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
-public class OGroupLine implements Line {
-
-    public static final char O_GROUP_CODE = 'O';
+public class GapLine implements Line {
+	/**
+	 * http://gfa-spec.github.io/GFA-spec/GFA2.html
+	 */
+    public static final char GAP_CODE = 'G';
 
     public static Function<String, Line> parser() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

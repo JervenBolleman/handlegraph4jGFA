@@ -21,31 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa2.line;
+package io.github.jervenbolleman.handlegraph4j.gfa1.line;
 
-import io.github.vgteam.handlegraph4j.gfa2.line.EdgeLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.FragmentLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.GapLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.HeaderLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.OGroupLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.SegmentLine;
-import io.github.vgteam.handlegraph4j.gfa2.line.UGroupLine;
+
 import java.util.Arrays;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
 public interface Line {
 
-    public static final char[] KNOWN_LINE_TYPE_CODES = new char[]{EdgeLine.EDGE_CODE,
-        FragmentLine.FRAGMENT_CODE, GapLine.GAP_CODE, HeaderLine.HEADER_CODE, OGroupLine.O_GROUP_CODE, SegmentLine.SEGMENT_CODE,
-        UGroupLine.U_GROUP_LINE_CODE
+	/**
+	 * The list of known lines 
+	 */
+    public static final char[] KNOWN_LINE_TYPE_CODES = new char[]{LinkLine.CODE,
+        ContainmentLine.CODE, HeaderLine.CODE, SegmentLine.CODE
     };
-    public static final int[] KNOWN_LINE_TYPE_CODES_AS_INT = new int[]{EdgeLine.EDGE_CODE,
-        FragmentLine.FRAGMENT_CODE, GapLine.GAP_CODE, HeaderLine.HEADER_CODE, OGroupLine.O_GROUP_CODE, SegmentLine.SEGMENT_CODE,
-        UGroupLine.U_GROUP_LINE_CODE
+    
+    /**
+	 * The list of known as integers 
+	 */
+    public static final int[] KNOWN_LINE_TYPE_CODES_AS_INT = new int[]{LinkLine.CODE,
+        ContainmentLine.CODE, HeaderLine.CODE, SegmentLine.CODE
     };
+    /**
+     * The lowest line code
+     */
     public static final char MIN_CODE = (char) Arrays.stream(KNOWN_LINE_TYPE_CODES_AS_INT).min().getAsInt();
+    /**
+     * The highest line code
+     */
     public static final char MAX_CODE = (char) Arrays.stream(KNOWN_LINE_TYPE_CODES_AS_INT).max().getAsInt();
+
+    /**
+     * Get the code for this line
+     * @return
+     */
+    public int getCode();
 }

@@ -21,41 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa2.line;
 
-import io.github.vgteam.handlegraph4j.sequences.SequenceType;
 import java.util.function.Function;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
-public class SegmentLineTest {
+public class UGroupLine implements Line {
+	/**
+	 * http://gfa-spec.github.io/GFA-spec/GFA2.html
+	 */
+    public static final char U_GROUP_LINE_CODE = 'U';
 
-    public SegmentLineTest() {
+    public static Function<String, Line> parser() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    /**
-     * Test of parser method, of class SegmentLine.
-     */
-    @Test
-    public void testParser() {
-        String s = "S\t1\tCAAATAAG";
-        Function<String, Line> result = SegmentLine.parser();
-        final SegmentLine expected = new SegmentLine(new byte[]{'1'}, SequenceType.fromByteArray(new byte[]{'C', 'A', 'A', 'A', 'T', 'A', 'A', 'G'}));
-        assertEquals(expected, SegmentLine.parseFromString(s));
-        assertEquals(expected, result.apply(s));
-    }
-
-    @Test
-    public void testParser2() {
-        String s = "S\t1\tA\tic:Z:true";
-        Function<String, Line> result = SegmentLine.parser();
-        final SegmentLine expected = new SegmentLine(new byte[]{'1'}, SequenceType.fromByteArray(new byte[]{'A'}));
-        assertEquals(expected, SegmentLine.parseFromString(s));
-        assertEquals(expected, result.apply(s));
-    }
-
 }

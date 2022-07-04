@@ -21,15 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa1.line;
 
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
+
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.Line;
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.LinkLine;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
 public class LinkLineTest {
 

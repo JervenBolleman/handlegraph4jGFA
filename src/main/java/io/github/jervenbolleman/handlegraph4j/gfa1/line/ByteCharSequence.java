@@ -21,19 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa2.line;
-
-import java.util.function.Function;
+package io.github.jervenbolleman.handlegraph4j.gfa1.line;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ *@author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
-public class HeaderLine implements Line {
+public class ByteCharSequence implements CharSequence {
 
-    public static final char HEADER_CODE = 'H';
+    private final byte[] chars;
 
-    public static Function<String, Line> parser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Assume ASCII so the byte array can be turned into chars
+     * @param chars a set of ascii bytes
+     */
+    public ByteCharSequence(byte[] chars) {
+        this.chars = chars;
     }
+
+    @Override
+    public int length() {
+        return chars.length;
+    }
+
+    @Override
+    public char charAt(int index) {
+        return (char) chars[index];
+    }
+
+    @Override
+    public CharSequence subSequence(int start, int end) {
+        byte[] copy = new byte[end - start];
+        System.arraycopy(chars, start, copy, 0, end - start);
+        return new ByteCharSequence(copy);
+
+    }
+
 }

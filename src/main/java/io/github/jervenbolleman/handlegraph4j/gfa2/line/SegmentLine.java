@@ -21,53 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa2.line;
 
-import io.github.vgteam.handlegraph4j.sequences.Sequence;
-import io.github.vgteam.handlegraph4j.sequences.SequenceType;
-import static java.nio.charset.StandardCharsets.US_ASCII;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 
+import io.github.jervenbolleman.handlegraph4j.sequences.Sequence;
+import io.github.jervenbolleman.handlegraph4j.sequences.SequenceType;
+
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
 public class SegmentLine implements Line {
-
-    public static final char CODE = 'S';
+	/**
+	 * http://gfa-spec.github.io/GFA-spec/GFA2.html
+	 */
+    public static final char SEGMENT_CODE = 'S';
     private final byte[] name;
+    private final int length;
     private final Sequence sequence;
+    private final byte[] tags;
 
-    public SegmentLine(byte[] name, Sequence sequence) {
-        this.name = name;
+    public SegmentLine(byte[] id, int length, Sequence sequence, byte[] tags) {
+        this.name = id;
+        this.length = length;
         this.sequence = sequence;
+        this.tags = tags;
     }
 
     //<sid:id> <slen:int> <sequence> <tag>*
     public static Function<String, Line> parser() {
-        return SegmentLine::parseFromString;
-    }
-
-    public static SegmentLine parseFromString(String s) {
-        int nt = s.indexOf('\t', 2);
-        byte[] id = s.substring(2, nt).getBytes(US_ASCII);
-        Sequence seq;
-        int secondTab = s.indexOf('\t', nt + 1);
-        if (secondTab == -1) {
-            seq = SequenceType.fromByteArray(s.substring(nt + 1).getBytes(US_ASCII));
-        } else {
-            seq = SequenceType.fromByteArray(s.substring(nt + 1, secondTab).getBytes(US_ASCII));
-        }
-        return new SegmentLine(id, seq);
+        return (s) -> {
+            int nt = s.indexOf('\t');
+            byte[] id = s.substring(0, nt).getBytes(StandardCharsets.US_ASCII);
+            int pt = nt;
+            nt = s.indexOf('\t', nt + 1);
+            int length = Integer.parseInt(s.substring(pt, nt));
+            pt = nt;
+            nt = s.indexOf('\t', pt + 1);
+            Sequence seq = SequenceType.fromByteArray(s.substring(pt, nt).getBytes(StandardCharsets.US_ASCII));
+            byte[] tags;
+            if (nt == s.length()) {
+                tags = null;
+            } else {
+                tags = s.substring(nt + 1).getBytes(StandardCharsets.US_ASCII);
+            }
+            return new SegmentLine(id, length, seq, tags);
+        };
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 19 * hash + Arrays.hashCode(this.name);
-        hash = 19 * hash + Objects.hashCode(this.sequence);
+        int hash = 7;
+        hash = 97 * hash + Arrays.hashCode(this.name);
+        hash = 97 * hash + this.length;
+        hash = 97 * hash + Objects.hashCode(this.sequence);
+        hash = 97 * hash + Arrays.hashCode(this.tags);
         return hash;
     }
 
@@ -83,35 +95,18 @@ public class SegmentLine implements Line {
             return false;
         }
         final SegmentLine other = (SegmentLine) obj;
+        if (this.length != other.length) {
+            return false;
+        }
         if (!Arrays.equals(this.name, other.name)) {
             return false;
         }
-        return Objects.equals(this.sequence, other.sequence);
-    }
-
-    @Override
-    public String toString() {
-        return "S\t" + new String(name, US_ASCII) + '\t' + sequence.toString();
-    }
-
-    public byte[] getName() {
-        return name;
-    }
-
-    public CharSequence getNameAsCharSequence() {
-        return new ByteCharSequence(name);
-    }
-
-    public String getNameAsString() {
-        return new String(name, US_ASCII);
-    }
-
-    public Sequence getSequence() {
-        return sequence;
-    }
-
-    @Override
-    public int getCode() {
-        return CODE;
+        if (!Objects.equals(this.sequence, other.sequence)) {
+            return false;
+        }
+        if (!Arrays.equals(this.tags, other.tags)) {
+            return false;
+        }
+        return true;
     }
 }

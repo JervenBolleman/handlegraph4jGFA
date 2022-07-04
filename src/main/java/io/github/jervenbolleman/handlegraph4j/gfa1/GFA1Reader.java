@@ -1,11 +1,12 @@
-package io.github.vgteam.handlegraph4j.gfa1;
+package io.github.jervenbolleman.handlegraph4j.gfa1;
 
-import io.github.vgteam.handlegraph4j.gfa1.line.Line;
-import io.github.vgteam.handlegraph4j.gfa1.line.LinkLine;
-import io.github.vgteam.handlegraph4j.gfa1.line.PathLine;
-import io.github.vgteam.handlegraph4j.gfa1.line.SegmentLine;
 import java.util.Iterator;
 import java.util.function.Function;
+
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.Line;
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.LinkLine;
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.PathLine;
+import io.github.jervenbolleman.handlegraph4j.gfa1.line.SegmentLine;
 
 /*
  * The MIT License
@@ -32,7 +33,7 @@ import java.util.function.Function;
  */
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
 public class GFA1Reader implements Iterator<Line> {
 
@@ -47,6 +48,10 @@ public class GFA1Reader implements Iterator<Line> {
         PARSERS[PathLine.CODE - (Line.MIN_CODE + 1)] = PathLine.parser();
     }
 
+    /**
+     * The lines to parse into handlegraph objects.
+     * @param toWrap
+     */
     public GFA1Reader(Iterator<String> toWrap) {
         this.toWrap = toWrap;
     }

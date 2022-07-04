@@ -21,25 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.github.vgteam.handlegraph4j.gfa1.line;
+package io.github.jervenbolleman.handlegraph4j.gfa1.line;
 
-
-import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  *
- * @author Jerven Bolleman <jerven.bolleman@sib.swiss>
+ * @author <a href="mailto:jerven.bolleman@sib.swiss">Jerven Bolleman</a>
  */
-public interface Line {
+public class HeaderLine implements Line {
 
-    public static final char[] KNOWN_LINE_TYPE_CODES = new char[]{LinkLine.CODE,
-        ContainmentLine.CODE, HeaderLine.CODE, SegmentLine.CODE
-    };
-    public static final int[] KNOWN_LINE_TYPE_CODES_AS_INT = new int[]{LinkLine.CODE,
-        ContainmentLine.CODE, HeaderLine.CODE, SegmentLine.CODE
-    };
-    public static final char MIN_CODE = (char) Arrays.stream(KNOWN_LINE_TYPE_CODES_AS_INT).min().getAsInt();
-    public static final char MAX_CODE = (char) Arrays.stream(KNOWN_LINE_TYPE_CODES_AS_INT).max().getAsInt();
+	/**
+	 * Header lines start with a H
+	 * http://gfa-spec.github.io/GFA-spec/GFA1.html#h-header-line
+	 */
+	public static final char CODE = 'H';
 
-    public int getCode();
+	/**
+	 * @return nothing as not yet supported
+	 */
+	public static Function<String, Line> parser() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public int getCode() {
+		return CODE;
+	}
 }
