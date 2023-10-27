@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.jervenbolleman</groupId>
 	<artifactId>handlegraph4j-gfa</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 	<licenses>
 		<license>
@@ -123,7 +123,7 @@
 		<dependency>
 			<groupId>io.github.jervenbolleman</groupId>
 			<artifactId>handlegraph4j</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 	<properties>
