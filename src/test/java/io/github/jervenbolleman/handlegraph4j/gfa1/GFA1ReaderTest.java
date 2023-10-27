@@ -41,43 +41,44 @@ public class GFA1ReaderTest {
     public GFA1ReaderTest() {
     }
 
-    private static final String TEST_DATA = "H\tVN:Z:1.0\n"
-            + "S\t1\tCAAATAAG\n"
-            + "S\t2\tA\n"
-            + "S\t3\tG\n"
-            + "S\t4\tT\n"
-            + "S\t5\tC\n"
-            + "S\t6\tTTG\n"
-            + "S\t7\tA\n"
-            + "S\t8\tG\n"
-            + "S\t9\tAAATTTTCTGGAGTTCTAT\n"
-            + "S\t10\tA\n"
-            + "S\t11\tT\n"
-            + "S\t12\tATAT\n"
-            + "S\t13\tA\n"
-            + "S\t14\tT\n"
-            + "S\t15\tCCAACTCTCTG\n"
-            + "P\tx\t1+,3+,5+,6+,8+,9+,11+,12+,14+,15+\t8M,1M,1M,3M,1M,19M,1M,4M,1M,11M\n"
-            + "L\t1\t+\t2\t+\t0M\n"
-            + "L\t1\t+\t3\t+\t0M\n"
-            + "L\t2\t+\t4\t+\t0M\n"
-            + "L\t2\t+\t5\t+\t0M\n"
-            + "L\t3\t+\t4\t+\t0M\n"
-            + "L\t3\t+\t5\t+\t0M\n"
-            + "L\t4\t+\t6\t+\t0M\n"
-            + "L\t5\t+\t6\t+\t0M\n"
-            + "L\t6\t+\t7\t+\t0M\n"
-            + "L\t6\t+\t8\t+\t0M\n"
-            + "L\t7\t+\t9\t+\t0M\n"
-            + "L\t8\t+\t9\t+\t0M\n"
-            + "L\t9\t+\t10\t+\t0M\n"
-            + "L\t9\t+\t11\t+\t0M\n"
-            + "L\t10\t+\t12\t+\t0M\n"
-            + "L\t11\t+\t12\t+\t0M\n"
-            + "L\t12\t+\t13\t+\t0M\n"
-            + "L\t12\t+\t14\t+\t0M\n"
-            + "L\t13\t+\t15\t+\t0M\n"
-            + "L\t14\t+\t15\t+\t0M";
+    private static final String TEST_DATA = """
+		H\tVN:Z:1.0
+		S\t1\tCAAATAAG
+		S\t2\tA
+		S\t3\tG
+		S\t4\tT
+		S\t5\tC
+		S\t6\tTTG
+		S\t7\tA
+		S\t8\tG
+		S\t9\tAAATTTTCTGGAGTTCTAT
+		S\t10\tA
+		S\t11\tT
+		S\t12\tATAT
+		S\t13\tA
+		S\t14\tT
+		S\t15\tCCAACTCTCTG
+		P\tx\t1+,3+,5+,6+,8+,9+,11+,12+,14+,15+\t8M,1M,1M,3M,1M,19M,1M,4M,1M,11M
+		L\t1\t+\t2\t+\t0M
+		L\t1\t+\t3\t+\t0M
+		L\t2\t+\t4\t+\t0M
+		L\t2\t+\t5\t+\t0M
+		L\t3\t+\t4\t+\t0M
+		L\t3\t+\t5\t+\t0M
+		L\t4\t+\t6\t+\t0M
+		L\t5\t+\t6\t+\t0M
+		L\t6\t+\t7\t+\t0M
+		L\t6\t+\t8\t+\t0M
+		L\t7\t+\t9\t+\t0M
+		L\t8\t+\t9\t+\t0M
+		L\t9\t+\t10\t+\t0M
+		L\t9\t+\t11\t+\t0M
+		L\t10\t+\t12\t+\t0M
+		L\t11\t+\t12\t+\t0M
+		L\t12\t+\t13\t+\t0M
+		L\t12\t+\t14\t+\t0M
+		L\t13\t+\t15\t+\t0M
+		L\t14\t+\t15\t+\t0M""";
 
     @Test
     public void testByCountingLineTypes() {
